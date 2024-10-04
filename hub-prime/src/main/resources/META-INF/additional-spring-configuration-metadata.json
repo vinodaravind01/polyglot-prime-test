@@ -1,0 +1,422 @@
+{"properties": [
+  {
+    "name": "org.techbd.service.http.hub.prime.version",
+    "type": "java.lang.String",
+    "description": "The active version, injected from pom.xml in application.properties via @project.version@"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.default-sdoh-fhir-profile-url",
+    "type": "java.lang.String",
+    "description": "The default FHIR Profile used for principal validation of SDoH data"
+  },
+  {
+    "name": "org.techbd.service.http.interactions.default-persist-strategy",
+    "type": "java.lang.String",
+    "description": "Default persistence strategy for all HTTP request/response JSON content."
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.driver-class-name",
+    "type": "java.lang.String",
+    "description": "The UDI primary JDBC Driver Class Name"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.url",
+    "type": "java.lang.String",
+    "description": "The UDI primary JDBC URL used by most poolers (except Hikari, see below)"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.jdbcUrl",
+    "type": "java.lang.String",
+    "description": "The UDI primary JDBC URL for Hikari pooler (same as usual jdbc.url)"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.username",
+    "type": "java.lang.String",
+    "description": "The UDI primary JDBC URL's username"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.password",
+    "type": "java.lang.String",
+    "description": "The UDI primary JDBC URL's password"
+  },
+  {
+    "name": "org.techbd.orchestrate.sftp.account.orchctlts",
+    "type": "java.util.List<org.techbd.orchestrate.sftp.SftpConfigMeta.SftpAccount>",
+    "description": "TechBD SFTP orchestration egress configuration for one or more tenants"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiUrl",
+    "type": "java.lang.String",
+    "description": "The default datalake API URL"
+  },
+  {
+    "name": "org.techbd.service.http.interactions.persist.db.uri-matcher.regex",
+    "type": "java.util.List<java.util.List<Object>>",
+    "description": "Matching rules for persisting HTTP interactions to the database"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinny-encounter",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinny-encounter'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyConsent",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyConsent'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyOrganization",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyOrganization'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPatient",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPatient'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPractitioner",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPractitioner'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationScreeningResponse",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationScreeningResponse'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyQuestionaire",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyQuestionaire'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyQuestionaireResponse",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyQuestionaireResponse'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationAssessment",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationAssessment'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHProcedure",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHProcedure'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHServiceRequest",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHServiceRequest'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHTaskForReferralManagement",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHTaskForReferralManagement'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationSexualOrientation",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyObservationSexualOrientation'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHCCGoal",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHCCGoal'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHCCCondition",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnySDOHCCCondition'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyMetaData",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyMetaData'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyCountry",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyCountry'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyMiddleName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyMiddleName'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPersonalPronouns",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyPersonalPronouns'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyGenderIdentity",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.shinnyGenderIdentity'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7ObservationScreeningResponse",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7ObservationScreeningResponse'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.shinny-consent-provision-types-vS",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.shinny-consent-provision-types-vS'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.shinnyHttpVerbsVS",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.shinnyHttpVerbsVS'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.shinnyCountyVS",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.shinnyCountyVS'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.shinnyPersonalPronounsVS",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.shinnyPersonalPronounsVS'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.shinnyScreeningVS",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.shinnyScreeningVS'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.codeSystemUrls.ny-county-codes",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.codeSystemUrls.ny-county-codes'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.codeSystemUrls.nyHRSNQuestionnaire",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.codeSystemUrls.nyHRSNQuestionnaire'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.maximumPoolSize",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.maximumPoolSize'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.minimumIdle",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.minimumIdle'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.idleTimeout",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.idleTimeout'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.connectionTimeout",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.connectionTimeout'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.maxLifetime",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.maxLifetime'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.threshold",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.threshold'"
+  },
+  {
+    "name": "org.techbd.udi.prime.jdbc.leakDetectionThreshold",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.udi.prime.jdbc.leakDetectionThreshold'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreBirthSex",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreBirthSex'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreRace",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreRace'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreEthnicity",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreEthnicity'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCorePractitioner",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCorePractitioner'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsSDOHCCObservationAssessment",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsSDOHCCObservationAssessment'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7USECRDisabilityStatus",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7USECRDisabilityStatus'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.codeSystemUrls.hl7SDOHCCCodeSystemTemporaryCodes",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.codeSystemUrls.hl7SDOHCCCodeSystemTemporaryCodes'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7SDOHCCProcedure",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7SDOHCCProcedure'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.codeSystemUrls.hl7CodeSystemConditionCategory",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.codeSystemUrls.hl7CodeSystemConditionCategory'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreOmbRaceCategory",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreOmbRaceCategory'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreEthnicityCategoty",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreEthnicityCategoty'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreUsPsState",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreUsPsState'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreSimpleLanguage",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreSimpleLanguage'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreEncounterType",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreEncounterType'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreValueSetObservationStatus",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreValueSetObservationStatus'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetObservationStatus",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetObservationStatus'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetLoincSnomedct",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetLoincSnomedct'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreConditionCode",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreConditionCode'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.usCoreProcedureCode",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.usCoreProcedureCode'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetReferralStatus",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.valueSetUrls.sdohValueSetReferralStatus'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreGenderIdentity",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.structureDefinitionsUrls.hl7UsCoreGenderIdentity'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.codeSystemUrls.hl7CodeSystemItemType",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.codeSystemUrls.hl7CodeSystemItemType'"
+  },
+  {
+    "name": "org.techbd.service.http.interactions.saveUserDataToInteractions",
+    "type": "java.lang.Boolean",
+    "description": "Set 'org.techbd.service.http.interactions.saveUserDataToInteractions' to true or false. If set to true, the logged-in user details will be saved for interactions."
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.m-tls-key-secret-name",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.m-tls-key-secret-name'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsEnabled",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsEnabled'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsCertSecretName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsCertSecretName'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsStrategy",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsStrategy'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsAwsSecrets.m-tls-key-secret-name",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsAwsSecrets.m-tls-key-secret-name'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsAwsSecrets.mTlsCertSecretName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsAwsSecrets.mTlsCertSecretName'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsResources.m-tls-cert-resource-name",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsResources.m-tls-cert-resource-name'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsResources.mTlsKeyResourceName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDatalakeApiAuthn.mTlsResources.mTlsKeyResourceName'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.m-tls-strategy",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.m-tls-strategy'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsAwsSecrets.m-tls-key-secret-name",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsAwsSecrets.m-tls-key-secret-name'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsAwsSecrets.mTlsCertSecretName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsAwsSecrets.mTlsCertSecretName'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.postStdinPayloadToNyecDataLakeExternal.cmd",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.postStdinPayloadToNyecDataLakeExternal.cmd'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.postStdinPayloadToNyecDataLakeExternal.timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.postStdinPayloadToNyecDataLakeExternal.timeout'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsResources.m-tls-key-resource-name",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsResources.m-tls-key-resource-name'"
+  },
+  {
+    "name": "org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsResources.mTlsCertResourceName",
+    "type": "java.lang.String",
+    "description": "A description for 'org.techbd.service.http.hub.prime.defaultDataLakeApiAuthn.mTlsResources.mTlsCertResourceName'"
+  }
+]}

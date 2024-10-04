@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/experiment}">
+
+<head>
+    <script src='https://unpkg.com/htmx.org/dist/htmx.min.js'></script>
+    <title>Application Routes</title>
+
+    <style>
+        h2 {
+            padding-top: 12px
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2 class="font-semibold leading-6 text-gray-900">nav-prime links</h1>
+        <ul>
+            <li th:each="navItem: ${navPrime}"><a th:attr="href=@{${navItem.href}}"
+                    th:text="${navItem.text}">Label</a></li>
+
+        </ul>
+
+        <h2 class="text-med font-semibold leading-6 text-gray-900">all routes trees (<code>details</code> browser)</h1>
+        <div th:attr="hx-get=@{/presentation/shell/nav/prime.fragment.html}" hx-trigger="load" hx-swap="innerHTML">Menu
+        </div>
+
+        <h2 class="text-med font-semibold leading-6 text-gray-900">all routes trees (ASCII)</h1>
+        <pre th:attr="hx-get=@{/presentation/shell/nav/prime-ascii.fragment.html}" hx-trigger="load"
+            hx-swap="innerHTML">ASCII Tree</pre>
+    </div>
+</body>
+
+</html>

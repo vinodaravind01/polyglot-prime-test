@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/prime}">
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css">
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
+
+    <!-- if JSON Viewer is not already in the layout, add the following -->
+    <!-- <script src="https://unpkg.com/@alenaksu/json-viewer@2.0.0/dist/json-viewer.bundle.js"></script> -->
+
+    <style>
+        .ag-theme-alpine .ag-root-wrapper {
+            border: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="myGrid" class="ag-theme-alpine"></div>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <json-viewer id="json"></json-viewer>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
+        <script id="driver">
+            document.addEventListener('DOMContentLoaded', function () {
+                let originalData = [];
+
+                var columnDefs = [
+                    { headerName: "QE", field: "tenantId",  filter: true, enablePivot: true, enableRowGroup: true },
+                    {
+                        headerName: "Request Time", field: "sessionFinalizedAt", sortable: true, filter: false, sort: "desc", enablePivot: true, enableRowGroup: true,
+                        valueFormatter: function (params) {
+                            if (params.value) {
+                                let date = new Date(params.value);
+                                // Define the options for formatting the date to EST
+                                let options = {
+                                    timeZone: 'America/New_York',
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                    hour12: false // Use 24-hour format
+                                };
+
+                                // Format the date to EST using Intl.DateTimeFormat
+                                let formatter = new Intl.DateTimeFormat('en-US', options);
+                                let formattedDate = formatter.format(date);
+                                return formattedDate;
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        headerName: "Session ID", field: "sessionId", sortable: true, filter: true, enablePivot: true, enableRowGroup: true,
+                        cellRenderer: function (params) {
+                            var link = document.createElement('a');
+                            link.href = '#';
+                            link.innerText = params.value;
+                            link.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                document.querySelector('#json').data = params.data.session;
+                                document.getElementById('modal').style.display = 'block';
+                            });
+                            link.style.textDecoration = 'underline';
+                            return link;
+                        }
+                    },
+                    { headerName: "Version", field: "version", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                    { headerName: "Ingress Count", field: "ingressCount", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                    { headerName: "Consumed CSV", field: "consumedCount", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                    { headerName: "FHIR POSTs", field: "publishedFhirCount", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                    {
+                        headerName: "FHIR POSTs Failed", field: "publishedFhirFailedCount", sortable: true, filter: true, enablePivot: true, enableRowGroup: true, cellRenderer: function (params) {
+                            if (parseInt(params.value) > 0) {
+                                var link = document.createElement('a');
+                                link.href = '#';
+                                link.innerText = params.value;
+                                link.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    document.querySelector('#json').data = params.data.publishedFhirFailedResponse;
+                                    document.getElementById('modal').style.display = 'block';
+                                });
+                                link.style.textDecoration = 'underline';
+                                return link;
+                            } else {
+                                return params.value
+                            }
+                        }
+                    },
+                    { headerName: "FHIR POSTs Success", field: "publishedFhirSuccessCount", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                    { headerName: "Exception", field: "exception", sortable: true, filter: true, enablePivot: true, enableRowGroup: true },
+                ];
+
+                const gridOptions = {
+                    columnDefs: columnDefs,
+                    rowData: [],
+                    defaultColDef: {
+                        flex: 1,
+                        minWidth: 100,
+                        resizable: true,
+                        sortable: true,
+                        filter: true,
+                        enablePivot: true
+                    },
+                    autoSizeStrategy: { type: "fitCellContents" },
+                    sideBar: true,
+                };
+
+                const eGridDiv = document.querySelector('#myGrid');
+                const gridApi = agGrid.createGrid(eGridDiv, gridOptions);
+                gridApi.showLoadingOverlay();
+                // TODO: figure out why this is required (otherwise Grid goes to height of 1 pixel)
+                eGridDiv.style.height = "750px"
+
+                fetch(window.shell.serverSideUrl(`/support/interaction/sftp/recent.json`))
+                    .then(response => response.json())
+                    .then(data => {
+                        originalData = data;
+                        const rowData = data.map(row => {
+                            // session might be null if the SFTP account is invalid;
+                            // in that case only `tenantId` and `error` will be available
+                            const session = row.sessionJson ? JSON.parse(row.sessionJson) : null;
+                            let publishedFhirFailedCount = 0;
+                            let publishedFhirSuccessCount = 0;
+                            const publishedFhirFailedResponse = [];
+                            if (session?.publishFhirResult) {
+                                session.publishFhirResult.forEach(r => {
+                                    let response;
+                                    try {
+                                        response = JSON.parse(r?.response);
+                                    } catch (e) {
+                                        // Handle JSON parsing error if needed
+                                        return;
+                                    }
+                                    if (!response?.scoredcardResponse?.includes('TestResult: PASS') && response?.status!='Success') {
+                                        publishedFhirFailedCount++;
+                                        if (response && response.bundleID) {
+                                            publishedFhirFailedResponse.push({
+                                                "File": r.fhirFileName,
+                                                "Response": response.scoredcardResponse,
+                                                "BundleID": response.bundleID
+                                            });
+                                        } else if (response && response.error) {
+                                            publishedFhirFailedResponse.push({
+                                                "File": r.fhirFileName,
+                                                "Error": response.error
+                                            });
+                                        } else if (response && response.status=='Error') {
+                                            publishedFhirFailedResponse.push({
+                                                "File": r.fhirFileName,
+                                                "Error": response.message
+                                            });
+                                        } else {
+                                            publishedFhirFailedResponse.push({
+                                                "File": r.fhirFileName,
+                                                "Response": "None" 
+                                            });
+                                        }
+
+                                    } else {
+                                        publishedFhirSuccessCount++;
+                                    }
+                                });
+                            }
+                            return {
+                                tenantId: row.tenantId,
+                                sessionFinalizedAt: row.sessionFinalizedAt,
+                                sessionId: row.sessionId,
+                                version: session?.version,
+                                ingressCount: session?.src?.length,
+                                consumedCount: session?.consumed?.length,
+                                publishedFhirCount: session?.publishFhirResult?.length,
+                                publishedFhirFailedCount: publishedFhirFailedCount,
+                                publishedFhirSuccessCount: publishedFhirSuccessCount,
+                                exception: row.error?.message,
+                                session,
+                                publishedFhirFailedResponse
+                            }
+                        });
+                        gridApi.setGridOption('rowData', rowData);
+                        gridApi.sizeColumnsToFit();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching interaction data:', error);
+                    });
+
+                document.querySelector('.close').onclick = function () {
+                    document.getElementById('modal').style.display = 'none';
+                };
+
+                window.onclick = function (event) {
+                    if (event.target == document.getElementById('modal')) {
+                        document.getElementById('modal').style.display = 'none';
+                    }
+                };
+            });
+        </script>
+    </div>
+</body>
+
+</html>

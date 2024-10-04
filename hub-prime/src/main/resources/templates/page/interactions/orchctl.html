@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/prime}">
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css">
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css">
+
+    <!-- if JSON Viewer is not already in the layout, add the following -->
+    <!-- <script src="https://unpkg.com/@alenaksu/json-viewer@2.0.0/dist/json-viewer.bundle.js"></script> -->
+
+    <script src="https://unpkg.com/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
+    <script type="module">
+        import { AGGridAide, AGGridAideBuilder } from '@presentation/shell/aggrid-aide.js';
+        import ModalAide from '@presentation/shell/modal-aide.js';
+
+        const schemaName = 'techbd_udi_ingress';
+        const viewName = 'interaction_sftp';
+        document.addEventListener('DOMContentLoaded', function () {
+            const modalAide = new ModalAide();
+            const agGridInstance = new AGGridAideBuilder()
+                .withColumnDefs([
+                    { headerName: "QE", field: "qe", filter: "agTextColumnFilter" },
+                    {
+                        headerName: "Request Time", field: "request_time", sortable: true, sort: "desc",
+                        filter: "agDateColumnFilter"
+                    },
+                    {
+                        headerName: "Session ID", field: "session_id",
+                        filter: "agTextColumnFilter", 
+                        cellRenderer: AGGridAide.modalCellRenderer((params, modalAide) => {
+                            modalAide.viewFetchedJsonValue(window.shell.serverSideUrl(`/api/ux/tabular/jooq/${schemaName}/${viewName}/session_id/${params.value}.json`));
+                        }, modalAide)
+                    },
+                    { headerName: "Version", field: "version", filter: "agTextColumnFilter" },
+                    { headerName: "Ingress Count", field: "ingress_count", filter: "agTextColumnFilter" },
+                    { headerName: "Issues Count", field: "issue_count", filter: "agTextColumnFilter" },
+                    { headerName: "Rejection Count", field: "rejection_count", filter: "agTextColumnFilter" },
+                    { headerName: "Warning Count", field: "warning_count", filter: "agTextColumnFilter" },
+                    { headerName: "Consumed CSV", field: "consumed_count", filter: "agTextColumnFilter" },
+                    { headerName: "FHIR Posts", field: "published_fhir_count", filter: "agTextColumnFilter" },
+                ])
+                .withServerSideDatasource(
+                    window.shell.serverSideUrl(`/api/ux/tabular/jooq/${schemaName}/${viewName}.json`),
+                    (data, valueCols) => {
+                        return valueCols.map(col => ({
+                            headerName: col.displayName,
+                            field: col.field
+                        }));
+                    }, {
+                    customizedContent: async (gridContent) => {
+                        // gridContent.rowData contains server side PostgreSQL result from `/api/ux/tabular/jooq/${schemaName}/${viewName}.json`
+                        // but we also need `published_fhir_count` from `/support/interaction/sftp/recent.json` so let's join them.
+                        await fetch(window.shell.serverSideUrl(`/support/interaction/sftp/recent.json`))
+                            .then(response => response.json())
+                            .then(sftpData => {
+                                /**
+                                 * Update `gridContent.rowData` with the `published_fhir_count` based on matching `sessionId` in `sftpData`.
+                                 * - Iterates over each row in `gridContent.rowData`.
+                                 * - Filters `sftpData` for entries with matching `sessionId` and non-null `sessionJson`.
+                                 * - Parses `sessionJson` and updates `gridRow.published_fhir_count` with the length of `publishFhirResult`.
+                                 * - Sets `published_fhir_count` to `'session_id ${sessionId} not found'` if no matching session is found.
+                                 *   The session_id may not be found in case the server's SftpManager failed or did not retrieve older 
+                                 *   records from SFTP server due to a load limit (to improve performance).
+                                 */
+                                gridContent.rowData.forEach(gridRow => {
+                                    const sftpSessionFound = sftpData.filter(sftpRow => sftpRow.sessionJson && gridRow.session_id === sftpRow.sessionId);
+                                    if (sftpSessionFound.length > 0) {
+                                        sftpSessionFound.forEach(sftpRow => {
+                                            const session = JSON.parse(sftpRow.sessionJson);
+                                            gridRow.published_fhir_count = session?.publishFhirResult?.length;
+                                        });
+                                    } else {
+                                        gridRow.published_fhir_count = `session_id ${gridRow.session_id} not found`;
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching `/support/interaction/sftp/recent.json`:', { error, gridContent });
+                            });
+                        // we modified the original array so just return existing object
+                        return gridContent;
+                    },
+                })
+                .withModalAide(modalAide)
+                .withGridDivStyles({ height: "750px", width: "100%" })
+                .build();
+
+            agGridInstance.init('serverDataGrid');
+        });
+    </script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="serverDataGrid" class="ag-theme-alpine"></div>
+    </div>
+</body>
+
+</html>

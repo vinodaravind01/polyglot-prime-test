@@ -1,0 +1,134 @@
+# when using environment variables, use this pattern:
+# `${${SPRING_PROFILES_ACTIVE}_TECHBD_xyz_abc_def:}`
+# - sandbox_TECHBD_xyz_abc_def
+# - devl_TECHBD_xyz_abc_def
+# - stage_TECHBD_xyz_abc_def
+# - prod_TECHBD_xyz_abc_def
+
+logging:
+  level:
+    org:
+      springframework: INFO
+      hibernate: ERROR
+    ca:
+      uhn: DEBUG
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  application:
+    name: techbd-hub-prime
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: 81bdb4df5dbf13
+    password: 8d8fbb25e43ffc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  api-docs:
+    path: /docs/api/openapi
+  swagger-ui.path: /docs/api/interactive/index.html
+  swagger-ui:
+    doc-expansion: none
+  show-actuator: true 
+
+server:
+  servlet:
+    context-path: /
+
+org:
+  techbd:
+    # these should be setup in ENV vars, not here
+    # orchestrate:
+    #   sftp:
+    #     account:
+    #       orchctlts:
+    #         - tenantId: name1
+    #           server: sftp.techbd.org
+    #           port: 22
+    #           username: name1
+    #           password: password
+    #         - tenantId: name2
+    #           server: sftp.techbd.org
+    #           port: 22
+    #           username: name2
+    #           password: password
+    service:
+      http:
+        hub:
+          prime:
+            version: @project.version@
+            defaultSdohFhirProfileUrl: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNYBundleProfile.json
+            defaultDatalakeApiUrl: https://uzrlhp39e0.execute-api.us-east-1.amazonaws.com/dev/HRSNBundle
+            structureDefinitionsUrls:
+              shinnyEncounter: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-encounter.json
+              shinnyConsent: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-Consent.json
+              shinnyOrganization: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shin-ny-organization.json
+              shinnyPatient: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-patient.json
+              shinnyPractitioner: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shin-ny-practitioner.json
+              shinnyObservationScreeningResponse:  https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-observation-screening-response.json
+              shinnyQuestionaire: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-questionnaire.json
+              shinnyQuestionaireResponse: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-questionnaire-response.json
+              shinnyObservationAssessment: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-observation-assessment.json
+              shinnySDOHProcedure: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-sdoh-procedure.json
+              shinnySDOHServiceRequest: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNYSDOHServiceRequest.json
+              shinnySDOHTaskForReferralManagement : https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNYSDOHTaskForReferralManagement.json
+              shinnySDOHCCCondition: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNY-SDOHCC-Condition.json
+              shinnySDOHCCGoal: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-SDOHCCGoal.json
+              shinnyObservationSexualOrientation: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shin-ny-observation-sexual-orientation.json
+              shinnyMetaData: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNYMeta.json
+              shinnyCountry: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-county.json
+              shinnyMiddleName: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-middle-name.json
+              shinnyPersonalPronouns: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-personal-pronouns.json
+              shinnyGenderIdentity: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-shinny-gender-identity.json
+            codeSystemUrls:
+              nyCountyCodes: https://shinny.org/ImplementationGuide/HRSN/CodeSystem-nys-county-codes.json
+              nyHRSNQuestionnaire: https://shinny.org/ImplementationGuide/HRSN/CodeSystem-NYS-HRSN-Questionnaire.json
+            valueSetUrls:
+              shinnyConsentProvisionTypesVS: https://shinny.org/ImplementationGuide/HRSN/ValueSet-SHINNYConsentProvisionTypeVS.json
+              shinnyCountyVS: https://shinny.org/ImplementationGuide/HRSN/ValueSet-SHINNYCountyVS.json
+              shinnyHttpVerbsVS: https://shinny.org/ImplementationGuide/HRSN/ValueSet-SHINNYHTTPVerbsVS.json
+              shinnyPersonalPronounsVS: https://shinny.org/ImplementationGuide/HRSN/ValueSet-SHINNYPersonalPronounsVS.json
+              shinnyScreeningVS: https://shinny.org/ImplementationGuide/HRSN/ValueSet-SHINNYScreeningVS.json
+        interactions:
+          defaultPersistStrategy: "{ \"nature\": \"fs\" }"
+          persist:
+            db:
+              uri-matcher:
+                # TODO: figure out why this is not being read in InteractionsFilter
+                regex:
+                  - .*
+                  - [^/Bundle/.*, POST, persistReqPayload persistRespPayload]         
+          saveUserDataToInteractions: true
+    udi:
+      prime:
+        jdbc: 
+          # the reason `url` and `jdbcUrl` are both supplied is that some poolers
+          # like `url` while others (e.g. Hikari, the default) like `jdbcUrl`
+          url: ${${SPRING_PROFILES_ACTIVE}_TECHBD_UDI_DS_PRIME_JDBC_URL:}
+          jdbcUrl: ${${SPRING_PROFILES_ACTIVE}_TECHBD_UDI_DS_PRIME_JDBC_URL:}
+          username: ${${SPRING_PROFILES_ACTIVE}_TECHBD_UDI_DS_PRIME_JDBC_USERNAME:}
+          password: ${${SPRING_PROFILES_ACTIVE}_TECHBD_UDI_DS_PRIME_JDBC_PASSWORD:}
+          driverClassName: org.postgresql.Driver
+          maximumPoolSize: 50
+          minimumIdle: 5
+          idleTimeout: 300000
+          connectionTimeout: 30000
+          maxLifetime: 1800000

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100" lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="shellAideServerSideProfile" content="java-spring-boot-3">
+    <meta name="ssrServletContextPath" th:content="@{/}">
+    <meta name="sandboxConsoleConf" th:content="${sandboxConsoleConf}">
+
+    <!-- always set this as the first script since it sets up the importMap for subsequent ESM imports -->
+    <script th:replace="~{fragments/shell :: script-import-map}"></script>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+    <script src="https://unpkg.com/@alenaksu/json-viewer@2.0.0/dist/json-viewer.bundle.js"></script>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid; // make sure it's available to other <script>s in the page
+        mermaid.initialize({ startOnLoad: true });        
+    </script>
+    <script th:inline="javascript" type="module">
+        import * as sh from '@presentation/shell/shell-aide.js';
+        new sh.TwoLevelHorizontalLayoutAide()
+            .setActiveRoute({
+                isHomePage: /*[[${isHomePage}]]*/ false,
+                uri: /*[[${activeRoutePath}]]*/ "",
+                title: /*[[${activeRouteTitle}]]*/ "",
+                breadcrumbs: /*[[${breadcrumbs}]]*/[],
+                parentTabs: /*[[${T(org.techbd.conf.Configuration).objectMapper.valueToTree(parentSiblingLinks)}]]*/[],
+                tabs: /*[[${T(org.techbd.conf.Configuration).objectMapper.valueToTree(siblingLinks)}]]*/[],
+            })
+            .global("layout"); // register as window.layout
+
+        document.sandboxConsoleWatch = {
+            activeRoute: window.layout.activeRoute,
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            window.layout.initActiveRoute();
+        });
+    </script>
+    <title layout:title-pattern="$CONTENT_TITLE">Page Title</title>
+</head>
+
+<body class="h-full">
+    <div class="min-h-full">
+        <div th:replace="~{fragments/nav :: main-menu-horiz-and-authn-profile}"></div>
+
+        <main>            
+            <div class="mx-auto max-w-9xl py-2 sm:px-6 lg:px-8">
+                <ul th:if="${parentSiblingLinks.size()} > 0" class="flex flex-wrap">
+                    <li th:each="link, iterStat : ${parentSiblingLinks}" 
+                        th:classappend="${iterStat.index == 0} ? 'ml-2' : ''"
+                        class="mr-2">
+                        <a th:href="@{${link.href}}" th:text="${link.text}" th:attr="for=${activeRouteParentPath}"
+                            th:class="${link.href == activeRouteParentPath
+                                        ? 'inline-block bg-white text-blue-600 rounded-t-lg py-2 px-4 text-sm font-medium text-center active' 
+                                        : 'inline-block text-gray-500 hover:text-gray-600 hover:bg-gray-50 rounded-t-lg py-2 px-4 text-sm font-medium text-center'}"
+                            class="inline-block text-gray-500 hover:text-gray-600 hover:bg-gray-50 rounded-t-lg py-2 px-4 text-sm font-medium text-center">Tab
+                            Label</a>
+                    </li>
+                </ul>
+                <div class="w-full mx-auto bg-white p-8 rounded-lg shadow-lg">
+                    <ul th:if="${siblingLinks.size()} > 0" class="flex flex-wrap mb-4 justify-center">
+                        <li th:each="link, iterStat : ${siblingLinks}" 
+                            th:classappend="${iterStat.index == 0} ? 'ml-2' : ''"
+                            class="mr-2">
+                            <a th:href="@{${link.href}}" th:text="${link.text}" th:attr="for=${activeRoutePath}"
+                                th:class="${link.href == activeRoutePath
+                                            ? 'inline-block bg-white text-blue-600 rounded-t-lg py-2 px-4 text-sm font-medium text-center active border-b-2 border-blue-500' 
+                                            : 'inline-block text-gray-500 hover:text-gray-600 hover:bg-gray-50 rounded-t-lg py-2 px-4 text-sm font-medium text-center'}"
+                                class="inline-block text-gray-500 hover:text-gray-600 hover:bg-gray-50 rounded-t-lg py-2 px-4 text-sm font-medium text-center">Tab
+                                Label</a>
+                        </li>
+                    </ul>
+    
+                    <div layout:fragment="content"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div th:replace="~{fragments/nav :: footer}"></div>    
+</body>
+
+</html>

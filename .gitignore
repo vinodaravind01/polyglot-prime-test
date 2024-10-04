@@ -1,0 +1,5 @@
+.env
+.envrc
+
+ArtifactStore-LocalFsPersistence
+ORG_TECHBD_HUB_PRIME_LOG_FILE_IS_UNDEFINED*.log
