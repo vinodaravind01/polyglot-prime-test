@@ -553,11 +553,27 @@
 		</plugins>
 
 		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <excludes>
+                <exclude>ig-packages/package.tgz</exclude>
+                <exclude>ig-packages/packageshinny.tgz</exclude>
+                <exclude>ig-packages/packageSTU7.tgz</exclude>
+                <exclude>ig-packages/packagesdoh.tgz</exclude>
+            </excludes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>ig-packages/package.tgz</include>
+                <include>ig-packages/packageshinny.tgz</include>
+                <include>ig-packages/packageSTU7.tgz</include>
+                <include>ig-packages/packagesdoh.tgz</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
 	</build>
 
 	<reporting>
