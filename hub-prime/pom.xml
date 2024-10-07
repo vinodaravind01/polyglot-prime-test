@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>org.techbd</groupId>
 	<artifactId>hub-prime</artifactId>
-	<version>0.262.0</version>
+	<version>0.263.0</version>
 	<packaging>war</packaging>
 	<name>Tech by Design Hub (Prime)</name>
 	<description>Tech by Design Hub (Primary)</description>
@@ -557,19 +557,13 @@
             <directory>src/main/resources</directory>
             <filtering>true</filtering>
             <excludes>
-                <exclude>ig-packages/package.tgz</exclude>
-                <exclude>ig-packages/packageshinny.tgz</exclude>
-                <exclude>ig-packages/packageSTU7.tgz</exclude>
-                <exclude>ig-packages/packagesdoh.tgz</exclude>
+                <exclude>ig-packages/**/*</exclude>
             </excludes>
         </resource>
         <resource>
             <directory>src/main/resources</directory>
             <includes>
-                <include>ig-packages/package.tgz</include>
-                <include>ig-packages/packageshinny.tgz</include>
-                <include>ig-packages/packageSTU7.tgz</include>
-                <include>ig-packages/packagesdoh.tgz</include>
+                <include>ig-packages/**/*</include>
             </includes>
             <filtering>false</filtering>
         </resource>

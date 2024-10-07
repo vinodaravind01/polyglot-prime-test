@@ -257,6 +257,7 @@ public class OrchestrationEngine {
         private final Map<String, String> structureDefinitionUrls;
         private final Map<String, String> codeSystemUrls;
         private final Map<String, String> valueSetUrls;
+        private final Map<String, Map<String, String>> igPackages;
 
         private HapiValidationEngine(final Builder builder) {
             this.fhirProfileUrl = builder.fhirProfileUrl;
@@ -271,6 +272,7 @@ public class OrchestrationEngine {
             this.structureDefinitionUrls = builder.structureDefinitionUrls;
             this.codeSystemUrls = builder.codeSystemUrls;
             this.valueSetUrls = builder.valueSetUrls;
+            this.igPackages = builder.igPackages;
         }
 
         private String readJsonFromUrl(final String url) {
@@ -554,12 +556,13 @@ public class OrchestrationEngine {
                 NpmPackageValidationSupport npmPackageValidationSupport = new NpmPackageValidationSupport(fhirContext);
 
                 try {
-                    // support/us-core/
-                    // npmPackageValidationSupport.loadPackageFromClasspath("ig-artifacts/package.tgz");
-                    npmPackageValidationSupport.loadPackageFromClasspath("ig-packages/package.tgz");
-                    npmPackageValidationSupport.loadPackageFromClasspath("ig-packages/packageshinny.tgz");
-                    npmPackageValidationSupport.loadPackageFromClasspath("ig-packages/packageSTU7.tgz");
-                    npmPackageValidationSupport.loadPackageFromClasspath("ig-packages/packagesdoh.tgz");
+                    if (igPackages != null && igPackages.containsKey("fhir-vr4")) {
+                        Map<String, String> igMap = igPackages.get("fhir-vr4");
+                        for (String igKey : igMap.keySet()) {
+                            String packagePath = igMap.get(igKey);
+                            npmPackageValidationSupport.loadPackageFromClasspath(packagePath + "/package.tgz");
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -568,10 +571,8 @@ public class OrchestrationEngine {
 
                 supportChain.addValidationSupport(defaultSupport);
                 supportChain.addValidationSupport(new CommonCodeSystemsTerminologyService(fhirContext));
-                supportChain.addValidationSupport(new
-                CommonCodeSystemsTerminologyService(fhirContext));
-                supportChain.addValidationSupport(new
-                InMemoryTerminologyServerValidationSupport(fhirContext));
+                supportChain.addValidationSupport(new CommonCodeSystemsTerminologyService(fhirContext));
+                supportChain.addValidationSupport(new InMemoryTerminologyServerValidationSupport(fhirContext));
                 // final var prePopulatedSupport = new
                 // PrePopulatedValidationSupport(fhirContext);
                 // final var jsonContent = readJsonFromUrl(fhirProfileUrl);
@@ -749,6 +750,7 @@ public class OrchestrationEngine {
             private Map<String, String> structureDefinitionUrls;
             private Map<String, String> codeSystemUrls;
             private Map<String, String> valueSetUrls;
+            private Map<String, Map<String, String>> igPackages;
 
             public Builder withFhirProfileUrl(@NotNull final String fhirProfileUrl) {
                 this.fhirProfileUrl = fhirProfileUrl;
@@ -767,6 +769,11 @@ public class OrchestrationEngine {
 
             public Builder withValueSetUrls(@NotNull final Map<String, String> valueSetUrls) {
                 this.valueSetUrls = valueSetUrls;
+                return this;
+            }
+
+            public Builder withIgPackages(@NotNull final Map<String, Map<String, String>> igPackages) {
+                this.igPackages = igPackages;
                 return this;
             }
 

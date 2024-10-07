@@ -44,6 +44,8 @@ public class AppConfig {
     private Map<String, String> codeSystemUrls;
     private Map<String, String> valueSetUrls;
     private DefaultDataLakeApiAuthn defaultDataLakeApiAuthn;
+    private String fhirVesrion;
+    private Map<String, Map<String, String>> igPackages;
 
     public String getVersion() {
         return version;
@@ -63,8 +65,8 @@ public class AppConfig {
         return defaultSdohFhirProfileUrl;
     }
 
-    public void setDefaultSdohFhirProfileUrl(String defaultFhirProfileUrl) {
-        this.defaultSdohFhirProfileUrl = defaultFhirProfileUrl;
+    public void setDefaultSdohFhirProfileUrl(String fhirVesrion) {
+        this.defaultSdohFhirProfileUrl = fhirVesrion;
     }
 
     public String getDefaultDatalakeApiUrl() {
@@ -98,6 +100,7 @@ public class AppConfig {
     public Map<String, String> getValueSetUrls() {
         return valueSetUrls;
     }
+
     public DefaultDataLakeApiAuthn getDefaultDataLakeApiAuthn() {
         return defaultDataLakeApiAuthn;
     }
@@ -105,11 +108,14 @@ public class AppConfig {
     public void setDefaultDataLakeApiAuthn(DefaultDataLakeApiAuthn defaultDataLakeApiAuthn) {
         this.defaultDataLakeApiAuthn = defaultDataLakeApiAuthn;
     }
+
     public record DefaultDataLakeApiAuthn(
             String mTlsStrategy,
             MTlsAwsSecrets mTlsAwsSecrets,
-            PostStdinPayloadToNyecDataLakeExternal postStdinPayloadToNyecDataLakeExternal,MTlsResources mTlsResources) {
+            PostStdinPayloadToNyecDataLakeExternal postStdinPayloadToNyecDataLakeExternal,
+            MTlsResources mTlsResources) {
     }
+
     public record MTlsResources(String mTlsKeyResourceName, String mTlsCertResourceName) {
     }
 
@@ -118,5 +124,20 @@ public class AppConfig {
 
     public record PostStdinPayloadToNyecDataLakeExternal(String cmd, int timeout) {
     }
-    
+
+    public String getfhirVesrion() {
+        return fhirVesrion;
+    }
+
+    public void setfhirVesrion(String fhirVesrion) {
+        this.fhirVesrion = fhirVesrion;
+    }
+
+    public Map<String, Map<String, String>> getIgPackages() {
+        return igPackages;
+    }
+
+    public void setIgPackages(Map<String, Map<String, String>> igPackages) {
+        this.igPackages = igPackages;
+    }
 }
