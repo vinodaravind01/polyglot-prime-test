@@ -155,6 +155,7 @@ public class FhirController {
         LOG.info("FHIRController:Bundle Validate :: Total structure definition URLS  in config: ",
                 null != structureDefintionUrls ? structureDefintionUrls.size() : 0);
         final var valueSetUrls = appConfig.getValueSetUrls();
+        final var igPackages = appConfig.getIgPackages();
         LOG.info("FHIRController:Bundle Validate :: Total value system URLS  in config: ",
                 null != valueSetUrls ? valueSetUrls.size() : 0);
         final var codeSystemUrls = appConfig.getCodeSystemUrls();
@@ -166,6 +167,7 @@ public class FhirController {
                 .withFhirProfileUrl(fhirProfileUrl)
                 .withFhirStructureDefinitionUrls(structureDefintionUrls)
                 .withFhirValueSetUrls(valueSetUrls)
+                .withFhirIGPackages(igPackages)
                 .withFhirCodeSystemUrls(codeSystemUrls)
                 .addHapiValidationEngine() // by default
                 // clearExisting is set to true so engines can be fully supplied through header

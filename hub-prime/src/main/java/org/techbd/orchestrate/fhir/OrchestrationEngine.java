@@ -151,7 +151,8 @@ public class OrchestrationEngine {
 
     public ValidationEngine getValidationEngine(@NotNull final ValidationEngineIdentifier type,
             @NotNull final String fhirProfileUrl, final Map<String, String> structureDefinitionUrls,
-            final Map<String, String> codeSystemUrls, final Map<String, String> valueSetUrls) {
+            final Map<String, String> codeSystemUrls, final Map<String, String> valueSetUrls,
+            final Map<String, Map<String, String>> igPackages) {
         final ValidationEngineKey key = new ValidationEngineKey(type, fhirProfileUrl);
         return validationEngineCache.computeIfAbsent(key, k -> {
             switch (type) {
@@ -160,6 +161,7 @@ public class OrchestrationEngine {
                             .withStructureDefinitionUrls(structureDefinitionUrls)
                             .withCodeSystemUrls(codeSystemUrls)
                             .withValueSetUrls(valueSetUrls)
+                            .withIgPackages(igPackages)
                             .build();
                 case HL7_EMBEDDED:
                     return new Hl7ValidationEngineEmbedded.Builder().withFhirProfileUrl(fhirProfileUrl).build();
@@ -555,12 +557,26 @@ public class OrchestrationEngine {
 
                 NpmPackageValidationSupport npmPackageValidationSupport = new NpmPackageValidationSupport(fhirContext);
 
+                // try {
+                // // support/us-core/
+                // //
+                // npmPackageValidationSupport.loadPackageFromClasspath("ig-artifacts/package.tgz");
+                // npmPackageValidationSupport
+                // .loadPackageFromClasspath("ig-packages/fhir-v4/us-core/stu-7.0.0/package.tgz");
+                // npmPackageValidationSupport
+                // .loadPackageFromClasspath("ig-packages/fhir-v4/sdoh-clinicalcare/stu-2.2.0/package.tgz");
+                // npmPackageValidationSupport.loadPackageFromClasspath("ig-packages/shin-ny-ig/v0.13.0/package.tgz");
+                // } catch (IOException e) {
+                // e.printStackTrace();
+                // }
+
                 try {
-                    if (igPackages != null && igPackages.containsKey("fhir-vr4")) {
-                        Map<String, String> igMap = igPackages.get("fhir-vr4");
+                    if (igPackages != null && igPackages.containsKey("fhir-v4")) {
+                        Map<String, String> igMap = igPackages.get("fhir-v4");
                         for (String igKey : igMap.keySet()) {
                             String packagePath = igMap.get(igKey);
                             npmPackageValidationSupport.loadPackageFromClasspath(packagePath + "/package.tgz");
+                            LOG.info(packagePath + "/package.tgz");
                         }
                     }
                 } catch (IOException e) {
@@ -1138,6 +1154,7 @@ public class OrchestrationEngine {
             private Map<String, String> structureDefinitionUrls;
             private Map<String, String> codeSystemUrls;
             private Map<String, String> valueSetUrls;
+            private Map<String, Map<String, String>> igPackages;
 
             public Builder(@NotNull final OrchestrationEngine engine) {
                 this.engine = engine;
@@ -1174,6 +1191,11 @@ public class OrchestrationEngine {
 
             public Builder withFhirValueSetUrls(@NotNull final Map<String, String> valueSetUrls) {
                 this.valueSetUrls = valueSetUrls;
+                return this;
+            }
+
+            public Builder withFhirIGPackages(@NotNull final Map<String, Map<String, String>> igPackages) {
+                this.igPackages = igPackages;
                 return this;
             }
 
@@ -1233,21 +1255,21 @@ public class OrchestrationEngine {
             public Builder addHapiValidationEngine() {
                 this.validationEngines
                         .add(engine.getValidationEngine(ValidationEngineIdentifier.HAPI, this.fhirProfileUrl,
-                                this.structureDefinitionUrls, this.codeSystemUrls, this.valueSetUrls));
+                                this.structureDefinitionUrls, this.codeSystemUrls, this.valueSetUrls, this.igPackages));
                 return this;
             }
 
             public Builder addHl7ValidationEmbeddedEngine() {
                 this.validationEngines
                         .add(engine.getValidationEngine(ValidationEngineIdentifier.HL7_EMBEDDED, this.fhirProfileUrl,
-                                null, null, null));
+                                null, null, null, null));
                 return this;
             }
 
             public Builder addHl7ValidationApiEngine() {
                 this.validationEngines
                         .add(engine.getValidationEngine(ValidationEngineIdentifier.HL7_API, this.fhirProfileUrl, null,
-                                null, null));
+                                null, null, null));
                 return this;
             }
 

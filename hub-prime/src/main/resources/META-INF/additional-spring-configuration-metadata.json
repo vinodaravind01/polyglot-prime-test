@@ -425,18 +425,18 @@
     "description": "A description for 'org.techbd.service.http.hub.prime.fhirVesrion'"
   },
   {
-    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-vr4.shin-ny",
+    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-v4.shin-ny",
     "type": "java.lang.String",
-    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-vr4.shin-ny'"
+    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-v4.shin-ny'"
   },
   {
-    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-vr4.usCore",
+    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-v4.usCore",
     "type": "java.lang.String",
-    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-vr4.usCore'"
+    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-v4.usCore'"
   },
   {
-    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-vr4.sdoh",
+    "name": "org.techbd.service.http.hub.prime.igPackages.fhir-v4.sdoh",
     "type": "java.lang.String",
-    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-vr4.sdoh'"
+    "description": "A description for 'org.techbd.service.http.hub.prime.igPackages.fhir-v4.sdoh'"
   }
 ]}
