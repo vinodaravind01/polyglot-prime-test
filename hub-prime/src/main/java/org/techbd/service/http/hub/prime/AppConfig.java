@@ -44,8 +44,9 @@ public class AppConfig {
     private Map<String, String> codeSystemUrls;
     private Map<String, String> valueSetUrls;
     private DefaultDataLakeApiAuthn defaultDataLakeApiAuthn;
-    private String fhirVesrion;
+    private String fhirVersion;
     private Map<String, Map<String, String>> igPackages;
+    private String igVersion;
 
     public String getVersion() {
         return version;
@@ -65,8 +66,8 @@ public class AppConfig {
         return defaultSdohFhirProfileUrl;
     }
 
-    public void setDefaultSdohFhirProfileUrl(String fhirVesrion) {
-        this.defaultSdohFhirProfileUrl = fhirVesrion;
+    public void setDefaultSdohFhirProfileUrl(String fhirVersion) {
+        this.defaultSdohFhirProfileUrl = fhirVersion;
     }
 
     public String getDefaultDatalakeApiUrl() {
@@ -125,12 +126,12 @@ public class AppConfig {
     public record PostStdinPayloadToNyecDataLakeExternal(String cmd, int timeout) {
     }
 
-    public String getfhirVesrion() {
-        return fhirVesrion;
+    public String getFhirVersion() {
+        return fhirVersion;
     }
 
-    public void setfhirVesrion(String fhirVesrion) {
-        this.fhirVesrion = fhirVesrion;
+    public void setFhirVersion(String fhirVersion) {
+        this.fhirVersion = fhirVersion;
     }
 
     public Map<String, Map<String, String>> getIgPackages() {
@@ -139,5 +140,13 @@ public class AppConfig {
 
     public void setIgPackages(Map<String, Map<String, String>> igPackages) {
         this.igPackages = igPackages;
+    }
+
+    public void setIgVersion(String igVersion) {
+        this.igVersion = igVersion;
+    }
+
+    public String getIgVersion() {
+        return igVersion;
     }
 }

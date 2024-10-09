@@ -92,15 +92,16 @@ class OrchestrationEngineTest {
         structureDefintionMap.put("shinnyOrganization", "http://example.com/shinnyOrganization");
         Map<String, String> valueSetMap = new HashMap<>();
         Map<String, Map<String, String>> igPackages = new HashMap<>();
+        String igVersion = new String();
         valueSetMap.put("nyCountyCodes", "http://example.com/countyCodes");
         Map<String, String> codeSystemMap = new HashMap<>();
         codeSystemMap.put("shinnyConsentProvisionTypesVS", "http://example.com/shinnyConsentProvision");
         assertThat(engine.getSessions()).hasSize(2);
         assertThat(engine.getValidationEngine(OrchestrationEngine.ValidationEngineIdentifier.HAPI,
-                "http://example.com/fhirProfile", structureDefintionMap, codeSystemMap, valueSetMap, igPackages))
+                "http://example.com/fhirProfile", structureDefintionMap, codeSystemMap, valueSetMap, igPackages,igVersion))
                 .isSameAs(engine.getValidationEngine(
                         OrchestrationEngine.ValidationEngineIdentifier.HAPI,
                         "http://example.com/fhirProfile", structureDefintionMap, codeSystemMap,
-                        valueSetMap, igPackages));
+                        valueSetMap, igPackages,igVersion));
     }
 }

@@ -75,10 +75,11 @@ org:
         hub:
           prime:
             version: @project.version@
-            fhirVesrion: r4
+            fhirVersion: r4
+            igVersion: 0.13.0
             igPackages:
                 fhir-v4:
-                    shinNy: ig-packages/shin-ny-ig/v0.13.0
+                    shinNy: ig-packages/shin-ny-ig/v${org.techbd.service.http.hub.prime.igVersion}
                     usCore: ig-packages/fhir-v4/us-core/stu-7.0.0
                     sdoh: ig-packages/fhir-v4/sdoh-clinicalcare/stu-2.2.0
             defaultSdohFhirProfileUrl: https://shinny.org/ImplementationGuide/HRSN/StructureDefinition-SHINNYBundleProfile.json
